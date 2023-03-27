@@ -3,7 +3,7 @@ package service
 import "github.com/liyuanwu2020/msgo/rpc"
 
 type GoodsService struct {
-	Find func(args map[string]any) ([]byte, error) `msrpc:"Get,/goods/find"`
+	Find func(args map[string]any) ([]byte, error) `msrpc:"GET,/goods/find"`
 }
 
 func (s *GoodsService) Env() rpc.HttpConfig {
