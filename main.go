@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"github.com/liyuanwu2020/goods/model"
+	"github.com/liyuanwu2020/micro.service.pb/go/user"
 	"github.com/liyuanwu2020/msgo"
 	"github.com/liyuanwu2020/msgo/rpc"
-	"github.com/liyuanwu2020/order/api"
 	"github.com/liyuanwu2020/order/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -35,6 +35,7 @@ func main() {
 	})
 
 	group.Get("/findGrpc", func(ctx *msgo.Context) {
+		log.Println("grpc request")
 		conn, err := grpc.Dial("localhost:9111", grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			panic(err)
@@ -45,8 +46,8 @@ func main() {
 
 			}
 		}(conn)
-		rpcClient := api.NewGoodsApiClient(conn)
-		rsp, err := rpcClient.Find(context.TODO(), &api.GoodsRequest{})
+		rpcClient := user.NewUserServiceClient(conn)
+		rsp, err := rpcClient.Search(context.TODO(), &user.UserRequest{})
 		if err != nil {
 			panic(err)
 		}
