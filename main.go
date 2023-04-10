@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/liyuanwu2020/goods/model"
 	"github.com/liyuanwu2020/micro.service.pb/go/user"
 	"github.com/liyuanwu2020/msgo"
@@ -58,16 +57,13 @@ func main() {
 
 	group.Get("/findGrpc2", func(ctx *msgo.Context) {
 		log.Println("grpc request2")
-		nacosClient, nacosErr := register.CreateNacosClient()
+
+		nacos := register.MsNacosDefault()
+		getService, nacosErr := nacos.GetService("user")
 		if nacosErr != nil {
 			panic(nacosErr)
 		}
-		ip, port, nacosErr := register.GetInstance(nacosClient, "user")
-		if nacosErr != nil {
-			panic(nacosErr)
-		}
-		addr := fmt.Sprintf("%s:%d", ip, port)
-		conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+		conn, err := grpc.Dial(getService, grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			panic(err)
 		}
