@@ -13,5 +13,6 @@ type Order struct {
 func Route(ctx *engine.Context) {
 	time.Sleep(time.Millisecond * 123)
 	ctx.Logger.Info("执行顺序 main")
+	panic("我错了")
 	_ = ctx.Json(&Order{Id: 189485, No: "yjxnld"})
 }
