@@ -20,7 +20,7 @@ func main() {
 	client := rpc.NewHttpClient()
 	client.RegisterHttpService("goods", &service.GoodsService{})
 
-	group.Get("/find", func(ctx *msgo.Context) {
+	group.Get("/index", func(ctx *msgo.Context) {
 		params := make(map[string]any)
 		params["id"] = 100
 		params["name"] = "xiaotian"
@@ -32,6 +32,7 @@ func main() {
 		if err != nil {
 			log.Println(err)
 		}
+		log.Println(ctx.GetQuery("id"))
 		ctx.JSON(http.StatusOK, &model.Result{Code: 1000, Msg: "success from rpc", Data: string(body)})
 
 	})
